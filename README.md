@@ -1,7 +1,8 @@
-# 📖 Proyecto de Gerencia en Ciencia de Datos
+# 📖 Proyecto de Gerencia en Ciencia de Datos - Violencia intrafamiliar. Colombia, años 2015 a 2023. Cifras definitivas
+
 ## Descripción General
-Este proyecto tiene como objetivo enseñar la gestión efectiva de proyectos de ciencia de datos.
-Incluye planificación, ejecución, mitigación de riesgos y presentación de resultados.
+Este repositorio cuenta con información de casos de violencia intrafamiliar en Colombia durante los años 2015 a 2023 tomados del Instituto Nacional de Medicina Legal 
+
 ## ¿Cómo empezar?
 1. Revisa la documentación en **docs/**.
 2. Define los roles en **docs/roles/roles.md**.
