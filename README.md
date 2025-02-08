@@ -10,5 +10,3 @@ Este repositorio cuenta con información de casos de violencia intrafamiliar en 
 4. Sigue la metodología seleccionada en **docs/methodology/methodology.md**.
 
 ## Flujo del proyecto
-
-![mermaid_graph](https://www.mermaidchart.com/raw/fd80f11d-721b-41d3-baa6-6417bad5a430?theme=light&version=v0.1&format=svg)
