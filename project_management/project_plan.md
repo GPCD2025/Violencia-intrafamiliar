@@ -1,5 +1,24 @@
 # 📌 Plan del Proyecto
 ## Descripción
-Este documento define el alcance del proyecto, sus objetivos y el cronograma general de trabajo.
-Debe incluir detalles como las fases del proyecto, entregables esperados y responsables por cada actividad.
-Se recomienda actualizar este documento regularmente conforme avanza el proyecto.
+
+Alcance: Proponer soluciones que permitan la violencia intrafamiliar. 
+Objetivos:
+- Identificar patrones de violencia.
+- Implementar modelo predictivo basado en patrones
+- Seleccionar variables relevantes a la problematica
+
+  
+Cronograma: 
+-
+
+Fases:
+- ETL extracción Transformacion  y carga load 
+- Análisis descriptivo y exploratorio
+- patrones o clusters y conclusiones a priori
+- Identificación y aplicación de modelos.
+  
+  
+
+Entregables
+- 
+Responsables
