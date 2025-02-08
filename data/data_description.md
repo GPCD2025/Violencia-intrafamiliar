@@ -11,3 +11,5 @@ Este documento explica qué tipo de datos se pueden manejar dentro del proyecto 
 ### Formatos Comunes:
 - CSV, JSON, Parquet para almacenamiento estructurado.
 - SQL para bases de datos relacionales.
+
+https://www.datos.gov.co/resource/ers2-kerr.csv
