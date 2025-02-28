@@ -1,0 +1,197 @@
+# Librerías
+#Manipulacion y Calculo de datos
+import pandas as pd
+import numpy as np
+pd.options.display.max_columns
+import scipy.stats as stats
+
+# VIsualización de datos
+import matplotlib.pyplot as plt
+import seaborn as sns
+%matplotlib inline
+
+#Manejo de avisos de Warning
+import warnings
+warnings.filterwarnings('ignore')
+
+
+# Prepocesamiento
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.decomposition import PCA
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.model_selection import train_test_split
+
+
+#Machine Learning
+from sklearn.multioutput import MultiOutputClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.metrics import accuracy_score, classification_report
+from sklearn.metrics import precision_score, recall_score, f1_score, hamming_loss
+from sklearn.model_selection import GridSearchCV
+
+#------------------------------------------------------------------------------------------------------
+#Carga de datos
+
+datos = pd.read_excel("/content/drive/MyDrive/EAN/proyecto VIC/datos_VIC.xlsx")
+
+
+#------------------------------------------------------------------------------------------------------
+
+#Ajustes de columnas y limpieza
+
+datos.columns = [column.replace(' ', '_') for column in datos.columns]
+datos.drop(datos[datos["grupo_de_edad_de_la_victima"] == "Por determinar"].index, inplace=True)
+
+datos["sexo_del_presunto_agresor"].replace("HOMBRE","Hombre", inplace=True)
+datos["sexo_del_presunto_agresor"].replace("MUJER","Mujer", inplace=True)
+datos["sexo_del_presunto_agresor"].replace("YERNO","Yerno", inplace=True)
+datos["sexo_del_presunto_agresor"].replace("NUERA","Nuera", inplace=True)
+datos["sexo_del_presunto_agresor"].replace("Ex Amante","Ex amante", inplace=True)
+datos["sexo_del_presunto_agresor"].replace("Ex Esposo (a)","Ex esposo (a)", inplace=True)
+datos["sexo_del_presunto_agresor"].replace("Ex Novio (a)","Ex novio (a)", inplace=True)
+
+datos["presunto_agresor"].replace("HOMBRE","Hombre", inplace=True)
+datos["presunto_agresor"].replace("MUJER","Mujer", inplace=True)
+datos["presunto_agresor"].replace("YERNO","Yerno", inplace=True)
+datos["presunto_agresor"].replace("NUERA","Nuera", inplace=True)
+datos["presunto_agresor"].replace("Ex Amante","Ex amante", inplace=True)
+datos["presunto_agresor"].replace("Ex Esposo (a)","Ex esposo (a)", inplace=True)
+datos["presunto_agresor"].replace("Ex Novio (a)","Ex novio (a)", inplace=True)
+datos["presunto_agresor"].value_counts()
+
+datos_tranformar = datos.drop(columns=["grupo_de_edad_de_la_victima", "tipo_de_discapacidad",
+                                       "código_dane_municipio", "codigo_dane_departamento",
+                                       "días_de_incapacidad_medicolegal","pertenencia_etnica","localidad_del_hecho"])
+encoder = OneHotEncoder(sparse_output=False, drop="first")
+encoded_data = encoder.fit_transform(datos_tranformar)
+nombres_columnas = encoder.get_feature_names_out(datos_tranformar.columns)
+
+df_encoded = pd.DataFrame(encoded_data, columns=nombres_columnas)
+
+#------------------------------------------------------------------------------------------------------
+
+#Grafica de codo
+
+wcss = []
+for i in range(1, 6):
+    kmeans = KMeans(n_clusters=i, init='k-means++', max_iter=300, n_init=10, random_state=0)
+    kmeans.fit(df_encoded)
+    wcss.append(kmeans.inertia_)
+plt.plot(range(1, 6), wcss)
+plt.title('Elbow Method')
+plt.xlabel('Number of clusters')
+plt.ylabel('WCSS')
+plt.show()
+
+#------------------------------------------------------------------------------------------------------
+
+#Visualización de Cluster
+pca = PCA(n_components=2)
+pca_result = pca.fit_transform(df_encoded)
+
+kmeans = KMeans(n_clusters=4, random_state=0)
+kmeans.fit(pca_result)
+labels = kmeans.labels_
+
+
+plt.figure(figsize=(8, 6))
+sns.scatterplot(x=pca_result[:, 0], y=pca_result[:, 1], hue=labels, palette="viridis", legend='full')
+plt.title('Clustering Visualization with PCA (n_clusters=5)')
+plt.xlabel('Principal Component 1')
+plt.ylabel('Principal Component 2')
+plt.show()
+
+#------------------------------------------------------------------------------------------------------
+
+#Analisis de Clustering
+
+kmeans = KMeans(n_clusters=4, init='k-means++', max_iter=300, n_init=10, random_state=0)
+kmeans.fit(df_encoded40)
+
+
+df_encoded['cluster'] = kmeans.labels_
+
+
+print(df_encoded['cluster'].value_counts())
+
+
+for i in range(4):
+    cluster_data = df_encoded[df_encoded['cluster'] == i]
+    print(f"\nCluster {i}:")
+    print(cluster_data.describe())
+
+
+
+#------------------------------------------------------------------------------------------------------
+
+#Preparacion para machine Learning
+
+lista_etiquetas = [col for col in datos_ml2.columns if col.startswith('presunto_agresor')]
+
+y = datos_ml2[lista_etiquetas]
+X = datos_ml2.drop(lista_etiquetas, axis=1)
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+print("Forma de X_train:", X_train.shape)
+print("Forma de X_test:", X_test.shape)
+print("Forma de y_train:", y_train.shape)
+print("Forma de y_test:", y_test.shape)
+
+
+#------------------------------------------------------------------------------------------------------
+#Modelado de datos & GridSerach
+
+param_grid_logreg = {
+    'estimator__C': [0.1, 1, 10],
+    'estimator__penalty': ['l1', 'l2'],
+    'estimator__solver': ['liblinear', 'saga']
+}
+
+param_grid_rf = {
+    'estimator__n_estimators': [50, 100, 200],
+    'estimator__max_depth': [None, 10, 20],
+    'estimator__min_samples_split': [2, 5, 10]
+}
+
+param_grid_gb = {
+    'estimator__n_estimators': [50, 100, 200],
+    'estimator__learning_rate': [0.01, 0.1, 1],
+    'estimator__max_depth': [3, 5, 7]
+}
+
+
+models = {
+    'Logistic Regression': (MultiOutputClassifier(LogisticRegression()), param_grid_logreg),
+    'Random Forest': (MultiOutputClassifier(RandomForestClassifier()), param_grid_rf),
+    'Gradient Boosting': (MultiOutputClassifier(GradientBoostingClassifier()), param_grid_gb)
+}
+
+for model_name, (model, param_grid) in models.items():
+    print(f"Training {model_name}...")
+    grid_search = GridSearchCV(model, param_grid, cv=5, scoring='accuracy', n_jobs=-1)
+    grid_search.fit(X_train, y_train)
+    
+    print(f"Best parameters for {model_name}: {grid_search.best_params_}")
+    print(f"Best score for {model_name}: {grid_search.best_score_}")
+
+    
+
+    y_pred = grid_search.predict(X_test)
+    
+    # Evaluacion de metricas
+    accuracy = accuracy_score(y_test, y_pred)
+    precision = precision_score(y_test, y_pred, average='micro')
+    recall = recall_score(y_test, y_pred, average='micro')
+    f1 = f1_score(y_test, y_pred, average='micro')
+    hamming = hamming_loss(y_test, y_pred)
+
+    print(f"Accuracy for {model_name}: {accuracy}")
+    print(f"Precision for {model_name}: {precision}")
+    print(f"Recall for {model_name}: {recall}")
+    print(f"F1-score for {model_name}: {f1}")
+    print(f"Hamming Loss for {model_name}: {hamming}")
