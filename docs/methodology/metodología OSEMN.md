@@ -12,7 +12,7 @@ Posteriormente avanzamos hacia un análisis más profundo mediante las fases de 
 # Fase Avanzada: Modelado Predictivo
 Una de las mayores ventajas de la metodología OSEMN es su capacidad para abrir las puertas al desarrollo de modelos predictivos. Basándonos en los patrones identificados durante las fases anteriores, comenzamos a explorar la posibilidad de crear un modelo predictivo que permita identificar potenciales agresores o víctimas en contextos específicos. Este tipo de modelo podría ser una herramienta poderosa para prevenir casos de violencia intrafamiliar antes de que ocurran.
 
-El metodo en si mismo nos abre las puertas a emplear metodos de machine learning para crear herramienta de predicción que puedan ayudar prevenir los casos de Violencia Intrafamiliar, empleamos técnicas de machine learning para buscar patrones. 
+El método en si mismo nos abre las puertas a emplear métodos de machine learning para crear herramienta de predicción que puedan ayudar prevenir los casos de Violencia Intrafamiliar, empleamos técnicas de machine learning para buscar patrones. 
 
 El objetivo fue desarrollar un sistema que pudiera predecir, con un alto grado de precisión, situaciones de riesgo basadas en variables como edad, género, ubicación geográfica, nivel educativo y otros factores relevantes. Aunque este enfoque aún está en desarrollo, esperamos conseguir resultado útiles en la práctica.
 
