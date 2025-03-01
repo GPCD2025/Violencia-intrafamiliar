@@ -1,9 +1,7 @@
 **Violencia Intrafamiliar Colombia** 
 Datos recopilados desde  2015 a 2025
 
- Variables del Dataset.
- 
- #   Column                                
+ Variables del Dataset.                              
 ---  ------                                
  0   id                                    
  1   ano del hecho                         
